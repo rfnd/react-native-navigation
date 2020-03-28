@@ -10,6 +10,9 @@ const {
   LEFT_SIDE_MENU_PUSH_AND_CLOSE_BTN
 } = require('../testIDs');
 
+
+let nextWidth = 100;
+
 function SideMenuLeftScreen(props) {
   useEffect(() => {
     const componentDisappearListener = Navigation.events().registerComponentDidDisappearListener(
@@ -39,19 +42,31 @@ function SideMenuLeftScreen(props) {
     }
   });
 
+  changeWidth = () => {
+    nextWidth = 50 + (nextWidth+30) % 400; // Cannot be zero
+    Navigation.mergeOptions('left', {
+      sideMenu: {
+        left: {
+          width: nextWidth
+        }
+      }
+    })
+  }
+
   const close = () => Navigation.mergeOptions(props.componentId, {
     sideMenu: {
       left: { visible: false }
     }
   });
 
-    return (
-      <Root componentId={props.componentId} style={{ marginTop: props.marginTop || 0 }}>
-        <Button label='Push' testID={LEFT_SIDE_MENU_PUSH_BTN} onPress={push} />
-        <Button label='Push and Close' testID={LEFT_SIDE_MENU_PUSH_AND_CLOSE_BTN} onPress={pushAndClose} />
-        <Button label='Close' testID={CLOSE_LEFT_SIDE_MENU_BTN} onPress={close} />
-      </Root>
-    );
+  return (
+    <Root componentId={props.componentId} style={{ marginTop: props.marginTop || 0 }}>
+      <Button label='ChangeWidth' onPress={this.changeWidth} />
+      <Button label='Push' testID={LEFT_SIDE_MENU_PUSH_BTN} onPress={push} />
+      <Button label='Push and Close' testID={LEFT_SIDE_MENU_PUSH_AND_CLOSE_BTN} onPress={pushAndClose} />
+      <Button label='Close' testID={CLOSE_LEFT_SIDE_MENU_BTN} onPress={close} />
+    </Root>
+  );
 }
 
 module.exports = SideMenuLeftScreen;

@@ -29,7 +29,8 @@ class LayoutsScreen extends React.Component {
       <Root componentId={this.props.componentId}>
         <Button label='Stack' testID={STACK_BTN} onPress={this.stack} />
         <Button label='BottomTabs' testID={BOTTOM_TABS_BTN} onPress={this.bottomTabs} />
-        <Button label='SideMenu' testID={SIDE_MENU_BTN} onPress={this.sideMenu} />
+        <Button label='SideMenu' testID={SIDE_MENU_BTN} onPress={this.showSideMenuAsModal} />
+        <Button label='SideMenuRoot' onPress={this.showSideMenuAsRootWithWidth} />
       </Root>
     );
   }
@@ -55,7 +56,7 @@ class LayoutsScreen extends React.Component {
     }
   });
 
-  sideMenu = () => Navigation.showModal({
+  showSideMenuAsModal = () => Navigation.showModal({
     sideMenu: {
       left: {
         component: {
@@ -73,6 +74,36 @@ class LayoutsScreen extends React.Component {
         component: {
           id: 'right',
           name: Screens.SideMenuRight
+        }
+      }
+    }
+  });
+
+  showSideMenuAsRootWithWidth = () => Navigation.setRoot({
+    sideMenu: {
+      left: {
+        component: {
+          id: 'left',
+          name: Screens.SideMenuLeft
+        }
+      },
+      center: stack({
+          component: {
+            id: 'SideMenuCenter',
+            name: Screens.SideMenuCenter
+          }
+        }),
+      right: {
+        component: {
+          id: 'right',
+          name: Screens.SideMenuRight
+        }
+      },
+      options: {
+        sideMenu: {
+          left: {
+            width: 150,
+          }
         }
       }
     }
